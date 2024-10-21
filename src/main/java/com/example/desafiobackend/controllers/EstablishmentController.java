@@ -23,8 +23,8 @@ public class EstablishmentController {
 
   @GetMapping
   public ResponseEntity<List<Establishment>> findAllEstablishments() {
-   List<Establishment> establishments = establishmentService.findAllEstablishments();
-   return ResponseEntity.ok(establishments);
+    List<Establishment> establishments = establishmentService.findAllEstablishments();
+    return ResponseEntity.ok(establishments);
   }
 
   @GetMapping(value = "/{id}")
@@ -37,12 +37,12 @@ public class EstablishmentController {
   public ResponseEntity<Establishment> createEstablishment(@RequestBody Establishment establishment) {
     establishmentService.insertEstablishment(establishment);
 
-    URI location = ServletUriComponentsBuilder
-        .fromCurrentRequest()
+    URI location = ServletUriComponentsBuilder.fromCurrentRequest()
         .path("/{id}")
         .buildAndExpand(establishment.getId())
         .toUri();
 
-    return ResponseEntity.created(location).body(establishment);
+    return ResponseEntity.created(location)
+        .body(establishment);
   }
 }

@@ -61,5 +61,4 @@ public class Address implements Serializable {
     this.city = city;
     this.country = country;
   }
-
 }

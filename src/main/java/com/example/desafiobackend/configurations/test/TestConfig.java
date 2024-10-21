@@ -19,6 +19,23 @@ public class TestConfig implements CommandLineRunner {
   @Override
   public void run(String... args) throws Exception {
 
+<<<<<<< HEAD
+=======
+    Establishment establishment01 = new Establishment(
+        "Estacionamento Cardoso",
+        "64.931.984/0001-07",
+        "47 992034358",
+        15,
+        20
+    );
+    Establishment establishment02 = new Establishment(
+        "Posto Carretão 2",
+        "36.436.218/0001-30",
+        "3653-1231",
+        50,
+        95
+    );
+>>>>>>> b7103aa2a281fd70aa432409f40a6ffdf35ebd13
 
     Address address01 = new Address(
         1231,
@@ -40,6 +57,7 @@ public class TestConfig implements CommandLineRunner {
         "Brasil"
     );
 
+<<<<<<< HEAD
 
     Establishment establishment01 = new Establishment(
         "Estacionamento Cardoso",
@@ -57,6 +75,10 @@ public class TestConfig implements CommandLineRunner {
         95,
         address01
     );
+=======
+    establishment01.setAddress(address01);
+    establishment02.setAddress(address02);
+>>>>>>> b7103aa2a281fd70aa432409f40a6ffdf35ebd13
 
     establishmentRepository.saveAll(Arrays.asList(establishment01, establishment02));
 

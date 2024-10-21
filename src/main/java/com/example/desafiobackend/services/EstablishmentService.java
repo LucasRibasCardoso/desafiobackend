@@ -12,6 +12,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+
 @Service
 public class EstablishmentService {
 
@@ -37,7 +38,7 @@ public class EstablishmentService {
   }
 
   @Transactional
-  public void insertEstablishment (Establishment establishment) {
+  public void insertEstablishment(Establishment establishment) {
     if (establishment == null) {
       throw new InvalidDataException("Establishment cannot be null");
     }
@@ -45,12 +46,11 @@ public class EstablishmentService {
     // valida o estabelecimento
     fieldsValidatorService.validateEstablishment(establishment);
 
-    try{
+    try {
       establishmentRepository.save(establishment);
     }
-    catch(OptimisticLockingFailureException e){
+    catch (OptimisticLockingFailureException e) {
       throw new DatabaseException("Unable to save this establishment.");
     }
   }
-
 }
