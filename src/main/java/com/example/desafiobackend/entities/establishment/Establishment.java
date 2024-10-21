@@ -9,8 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import java.io.Serial;
 import java.io.Serializable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -25,29 +24,21 @@ import lombok.Setter;
 @EqualsAndHashCode(of = "id")
 public class Establishment implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @NotBlank(message = "The field 'name' can't be empty.")
   private String name;
-
-  @NotBlank(message = "The field 'CNPJ' can't be empty.")
   private String cnpj;
-
-  @NotBlank(message = "The field 'phone' can't be empty.")
   private String phone;
-
-  @NotNull(message = "The field 'motorcycle vacancies' can't be empty.")
   private Integer motorcycleVacancies;
-
-  @NotNull(message = "The field 'car vacancies' can't be empty.")
   private Integer carVacancies;
 
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "address_id",referencedColumnName = "id")
+  @JoinColumn(name = "address_id", referencedColumnName = "id")
   private Address address;
 
   public Establishment (
@@ -55,7 +46,8 @@ public class Establishment implements Serializable {
       String cnpj,
       String phone,
       Integer motorcycleVacancies,
-      Integer carVacancies)
+      Integer carVacancies,
+      Address address)
   {
 
     this.name = name;
@@ -63,5 +55,7 @@ public class Establishment implements Serializable {
     this.phone = phone;
     this.motorcycleVacancies = motorcycleVacancies;
     this.carVacancies = carVacancies;
+    this.address = address;
   }
+
 }

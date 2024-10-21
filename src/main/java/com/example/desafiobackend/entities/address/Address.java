@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import java.io.Serial;
 import java.io.Serializable;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -23,6 +24,7 @@ import lombok.Setter;
 @EqualsAndHashCode(of = "id")
 public class Address implements Serializable {
 
+  @Serial
   private static final long serialVersionUID = 1L;
 
   @Id
@@ -59,4 +61,5 @@ public class Address implements Serializable {
     this.city = city;
     this.country = country;
   }
+
 }
