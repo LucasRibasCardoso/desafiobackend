@@ -43,7 +43,6 @@ public class EstablishmentService {
       throw new InvalidDataException("Establishment cannot be null");
     }
 
-    // valida o estabelecimento
     fieldsValidatorService.validateEstablishment(establishment);
 
     try {

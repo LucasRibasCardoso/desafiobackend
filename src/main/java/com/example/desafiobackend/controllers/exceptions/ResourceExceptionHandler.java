@@ -1,6 +1,7 @@
 package com.example.desafiobackend.controllers.exceptions;
 
 import com.example.desafiobackend.services.exceptions.DatabaseException;
+import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
 import com.example.desafiobackend.services.exceptions.InvalidDataException;
 import com.example.desafiobackend.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -67,5 +68,19 @@ public class ResourceExceptionHandler {
     return ResponseEntity.status(status).body(standardError);
   }
 
+  @ExceptionHandler(ExternalServiceUnavailableException.class)
+  public ResponseEntity<StandardError> externalServiceUnavailableException(
+      ExternalServiceUnavailableException e, HttpServletRequest request)
+  {
+      Instant instant = Instant.now();
+      int status = HttpStatus.SERVICE_UNAVAILABLE.value();
+      String error = "Service unavailable";
+      String message = e.getMessage();
+      String path = request.getRequestURI();
+
+      StandardError standardError = new StandardError(instant, status, error, message, path);
+
+      return ResponseEntity.status(status).body(standardError);
+  }
 
 }

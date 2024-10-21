@@ -1,5 +1,6 @@
 package com.example.desafiobackend.services;
 
+import com.example.desafiobackend.entities.address.Address;
 import com.example.desafiobackend.entities.establishment.Establishment;
 import com.example.desafiobackend.services.exceptions.InvalidDataException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,18 +10,32 @@ import org.springframework.stereotype.Service;
 public class FieldsValidatorService {
 
   private final PhoneValidatorApiService phoneValidatorApiService;
+  private final ZipCodeValidatorApiService zipCodeValidatorApiService;
 
-  public FieldsValidatorService(PhoneValidatorApiService phoneValidatorApiService) {
+  @Autowired
+  public FieldsValidatorService(
+      PhoneValidatorApiService phoneValidatorApiService, ZipCodeValidatorApiService zipCodeValidatorApiService
+  ) {
     this.phoneValidatorApiService = phoneValidatorApiService;
+    this.zipCodeValidatorApiService = zipCodeValidatorApiService;
   }
   
-  // Valida os campos de Establishment
   public void validateEstablishment(Establishment establishment) {
+
     validateName(establishment);
     validateCnpj(establishment);
     phoneValidatorApiService.validatePhone(establishment);
     validateMotorcycleVacancies(establishment);
     validateCarVacancies(establishment);
+
+    validateHomeNumber(establishment.getAddress());
+    zipCodeValidatorApiService.validateZipCode(establishment.getAddress());
+    validateStreet(establishment.getAddress());
+    validateNeighborhood(establishment.getAddress());
+    validateCity(establishment.getAddress());
+    validateState(establishment.getAddress());
+    validateCountry(establishment.getAddress());
+
   }
 
   private void validateName (Establishment establishment) {
@@ -106,4 +121,39 @@ public class FieldsValidatorService {
     }
   }
 
+  private void validateHomeNumber (Address address) {
+    if (address.getHomeNumber() == null) {
+      throw new InvalidDataException("Home number is required.");
+    }
+  }
+
+  private void validateStreet (Address address) {
+    if (address.getStreet() == null || address.getStreet().isEmpty()) {
+      throw new InvalidDataException("Street is required.");
+    }
+  }
+
+  private void validateNeighborhood (Address address) {
+    if (address.getNeighborhood() == null || address.getNeighborhood().isEmpty()) {
+      throw new InvalidDataException("Neighborhood is required.");
+    }
+  }
+
+  private void validateCity (Address address) {
+    if (address.getCity() == null || address.getCity().isEmpty()) {
+      throw new InvalidDataException("City is required.");
+    }
+  }
+
+  private void validateState (Address address) {
+    if (address.getState() == null || address.getState().isEmpty()) {
+      throw new InvalidDataException("State is required.");
+    }
+  }
+
+  private void validateCountry (Address address) {
+    if (address.getCountry() == null || address.getCountry().isEmpty()) {
+      throw new InvalidDataException("Country is required.");
+    }
+  }
 }
