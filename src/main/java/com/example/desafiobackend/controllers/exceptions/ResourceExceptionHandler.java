@@ -1,5 +1,6 @@
 package com.example.desafiobackend.controllers.exceptions;
 
+import com.example.desafiobackend.services.exceptions.CnpjValidationException;
 import com.example.desafiobackend.services.exceptions.DatabaseException;
 import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
 import com.example.desafiobackend.services.exceptions.InvalidDataException;
@@ -81,6 +82,21 @@ public class ResourceExceptionHandler {
       StandardError standardError = new StandardError(instant, status, error, message, path);
 
       return ResponseEntity.status(status).body(standardError);
+  }
+
+  @ExceptionHandler(CnpjValidationException.class)
+  public ResponseEntity<StandardError> cnpjValidationException(
+      CnpjValidationException e, HttpServletRequest request)
+  {
+    Instant instant = Instant.now();
+    int status = HttpStatus.BAD_REQUEST.value();
+    String error = "Cnpj validation error";
+    String message = e.getMessage();
+    String path = request.getRequestURI();
+
+    StandardError standardError = new StandardError(instant, status, error, message, path);
+
+    return ResponseEntity.status(status).body(standardError);
   }
 
 }

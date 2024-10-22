@@ -2,7 +2,6 @@ package com.example.desafiobackend.services.validationService;
 
 import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
 import com.example.desafiobackend.services.exceptions.InvalidDataException;
-import com.example.desafiobackend.services.exceptions.ResourceNotFoundException;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,7 +40,7 @@ public class PhoneValidationApiService {
       }
     }
     catch (HttpClientErrorException e) {
-      throw new InvalidDataException("Phone not found.");
+      throw new ExternalServiceUnavailableException("Error when trying to access external service");
     }
     catch (ResourceAccessException e) {
       throw new ExternalServiceUnavailableException("Unable to reach the phone validation service.");

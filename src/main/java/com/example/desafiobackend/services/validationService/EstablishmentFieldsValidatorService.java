@@ -3,6 +3,7 @@ package com.example.desafiobackend.services.validationService;
 import com.example.desafiobackend.entities.establishment.Establishment;
 import com.example.desafiobackend.services.exceptions.InvalidDataException;
 import com.example.desafiobackend.services.validationService.interfaces.ValidationFields;
+import com.example.desafiobackend.services.validationService.interfaces.ValidationService;
 import com.example.desafiobackend.utills.validators.RequiredFieldsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,21 +12,21 @@ import org.springframework.stereotype.Service;
 public class EstablishmentFieldsValidatorService implements ValidationFields<Establishment> {
 
   private final PhoneValidationApiService phoneValidationApiService;
-  private final CnpjValidatorService cnpjValidatorService;
+  private final ValidationService<String> CnpjValidationService;
 
   @Autowired
   public EstablishmentFieldsValidatorService(
       PhoneValidationApiService phoneValidatorApiService,
-      CnpjValidatorService cnpjValidatorService
+      ValidationService<String> CnpjValidationService
   ) {
     this.phoneValidationApiService = phoneValidatorApiService;
-    this.cnpjValidatorService = cnpjValidatorService;
+    this.CnpjValidationService = CnpjValidationService;
   }
 
   @Override
   public void validateFields(Establishment establishment) {
     validateRequiredFields(establishment);
-    cnpjValidatorService.validate(establishment.getCnpj());
+    CnpjValidationService.validate(establishment.getCnpj());
     phoneValidationApiService.validate(establishment.getPhone());
     validateVacancies(establishment);
   }
