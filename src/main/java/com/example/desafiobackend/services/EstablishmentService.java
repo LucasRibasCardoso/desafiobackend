@@ -1,10 +1,12 @@
 package com.example.desafiobackend.services;
 
+import com.example.desafiobackend.entities.address.Address;
 import com.example.desafiobackend.entities.establishment.Establishment;
 import com.example.desafiobackend.repositories.EstablishmentRepository;
 import com.example.desafiobackend.services.exceptions.DatabaseException;
 import com.example.desafiobackend.services.exceptions.InvalidDataException;
 import com.example.desafiobackend.services.exceptions.ResourceNotFoundException;
+import com.example.desafiobackend.services.validationService.interfaces.ValidationFields;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,14 +19,19 @@ import org.springframework.transaction.annotation.Transactional;
 public class EstablishmentService {
 
   private final EstablishmentRepository establishmentRepository;
-  private final FieldsValidatorService fieldsValidatorService;
+  private final ValidationFields<Establishment> establishmentFieldsValidator;
+  private final ValidationFields<Address> addressFieldsValidator;
+
 
   @Autowired
   public EstablishmentService(
-      EstablishmentRepository establishmentRepository, FieldsValidatorService fieldsValidatorService
+      EstablishmentRepository establishmentRepository,
+      ValidationFields<Establishment> establishmentFieldsValidator,
+      ValidationFields<Address> addressFieldsValidator
   ) {
     this.establishmentRepository = establishmentRepository;
-    this.fieldsValidatorService = fieldsValidatorService;
+    this.establishmentFieldsValidator = establishmentFieldsValidator;
+    this.addressFieldsValidator = addressFieldsValidator;
   }
 
 
@@ -43,7 +50,8 @@ public class EstablishmentService {
       throw new InvalidDataException("Establishment cannot be null");
     }
 
-    fieldsValidatorService.validateEstablishment(establishment);
+    establishmentFieldsValidator.validateFields(establishment);
+    addressFieldsValidator.validateFields(establishment.getAddress());
 
     try {
       establishmentRepository.save(establishment);

@@ -1,8 +1,8 @@
-package com.example.desafiobackend.services;
+package com.example.desafiobackend.services.validationService;
 
-import com.example.desafiobackend.entities.establishment.Establishment;
 import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
 import com.example.desafiobackend.services.exceptions.InvalidDataException;
+import com.example.desafiobackend.services.exceptions.ResourceNotFoundException;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class PhoneValidatorApiService {
+public class PhoneValidationApiService {
 
   @Value("${numverify.api.key}")
   private  String api_key;
@@ -22,17 +22,11 @@ public class PhoneValidatorApiService {
   private final RestTemplate restTemplate;
 
   @Autowired
-  public PhoneValidatorApiService(RestTemplate restTemplate) {
+  public PhoneValidationApiService(RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
   }
 
-  public void validatePhone(Establishment establishment) {
-    String phone = establishment.getPhone();
-
-    if (phone == null || phone.isEmpty()) {
-      throw new InvalidDataException("Phone number is required.");
-    }
-
+  public void validate(String phone) {
     String url = UriComponentsBuilder.fromHttpUrl(API_URL)
         .queryParam("access_key",  api_key)
         .queryParam("number", phone)

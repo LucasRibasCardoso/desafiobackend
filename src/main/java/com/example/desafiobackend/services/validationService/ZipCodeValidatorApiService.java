@@ -1,8 +1,8 @@
-package com.example.desafiobackend.services;
+package com.example.desafiobackend.services.validationService;
 
-import com.example.desafiobackend.entities.address.Address;
 import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
 import com.example.desafiobackend.services.exceptions.InvalidDataException;
+import com.example.desafiobackend.services.exceptions.ResourceNotFoundException;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,16 +22,9 @@ public class ZipCodeValidatorApiService {
     this.restTemplate = restTemplate;
   }
 
-  public void validateZipCode(Address address) {
-    String zipCode = address.getZipCode();
-    String responseFormat = "json";
-
-    if (zipCode == null || zipCode.isEmpty()) {
-      throw new InvalidDataException("Zip code is required.");
-    }
-
+  public void validate(String zipCode) {
     String url = UriComponentsBuilder.fromHttpUrl(URL_API)
-        .path(zipCode + "/" + responseFormat)
+        .path(zipCode + "/" + "json")
         .toUriString();
 
     try {
