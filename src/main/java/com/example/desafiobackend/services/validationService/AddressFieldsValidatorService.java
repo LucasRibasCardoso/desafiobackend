@@ -1,25 +1,27 @@
 package com.example.desafiobackend.services.validationService;
 
 import com.example.desafiobackend.entities.address.Address;
-import com.example.desafiobackend.services.validationService.interfaces.ValidationFields;
+import com.example.desafiobackend.services.validationService.interfaces.ValidationService;
 import com.example.desafiobackend.utills.validators.RequiredFieldsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AddressFieldsValidatorService implements ValidationFields<Address> {
+public class AddressFieldsValidatorService {
 
-  private final ZipCodeValidatorApiService zipCodeValidationApiService;
+  private final ValidationService<String> zipCodeValidator;
 
   @Autowired
-  public AddressFieldsValidatorService(ZipCodeValidatorApiService zipCodeValidationApiService) {
-    this.zipCodeValidationApiService = zipCodeValidationApiService;
+  public AddressFieldsValidatorService(
+      @Qualifier("zipCodeValidatorApiService") ValidationService<String> zipCodeValidator)
+  {
+    this.zipCodeValidator = zipCodeValidator;
   }
 
-  @Override
   public void validateFields(Address address) {
     validateRequiredFields(address);
-    zipCodeValidationApiService.validate(address.getZipCode());
+    zipCodeValidator.validate(address.getZipCode());
   }
 
   private void validateRequiredFields(Address address) {

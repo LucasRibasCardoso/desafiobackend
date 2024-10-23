@@ -2,32 +2,31 @@ package com.example.desafiobackend.services.validationService;
 
 import com.example.desafiobackend.entities.establishment.Establishment;
 import com.example.desafiobackend.services.exceptions.InvalidDataException;
-import com.example.desafiobackend.services.validationService.interfaces.ValidationFields;
 import com.example.desafiobackend.services.validationService.interfaces.ValidationService;
 import com.example.desafiobackend.utills.validators.RequiredFieldsValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EstablishmentFieldsValidatorService implements ValidationFields<Establishment> {
+public class EstablishmentFieldsValidatorService {
 
-  private final PhoneValidationApiService phoneValidationApiService;
-  private final ValidationService<String> CnpjValidationService;
+  private final ValidationService<String>  phoneValidator;
+  private final ValidationService<String> cnpjValidator;
 
   @Autowired
   public EstablishmentFieldsValidatorService(
-      PhoneValidationApiService phoneValidatorApiService,
-      ValidationService<String> CnpjValidationService
+      @Qualifier("phoneValidationApiService") ValidationService<String> phoneValidator,
+      @Qualifier("cnpjValidationApiService") ValidationService<String> cnpjValidator
   ) {
-    this.phoneValidationApiService = phoneValidatorApiService;
-    this.CnpjValidationService = CnpjValidationService;
+    this.phoneValidator = phoneValidator;
+    this.cnpjValidator = cnpjValidator;
   }
 
-  @Override
   public void validateFields(Establishment establishment) {
     validateRequiredFields(establishment);
-    CnpjValidationService.validate(establishment.getCnpj());
-    phoneValidationApiService.validate(establishment.getPhone());
+    cnpjValidator.validate(establishment.getCnpj());
+    phoneValidator.validate(establishment.getPhone());
     validateVacancies(establishment);
   }
 

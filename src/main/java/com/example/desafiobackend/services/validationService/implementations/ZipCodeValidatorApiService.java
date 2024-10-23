@@ -1,8 +1,8 @@
-package com.example.desafiobackend.services.validationService;
+package com.example.desafiobackend.services.validationService.implementations;
 
 import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
-import com.example.desafiobackend.services.exceptions.InvalidDataException;
-import com.example.desafiobackend.services.exceptions.ResourceNotFoundException;
+import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeValidationException;
+import com.example.desafiobackend.services.validationService.interfaces.ValidationService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class ZipCodeValidatorApiService {
+public class ZipCodeValidatorApiService implements ValidationService <String>{
 
   private static final String URL_API = "https://viacep.com.br/ws/";
   private final RestTemplate restTemplate;
@@ -22,24 +22,30 @@ public class ZipCodeValidatorApiService {
     this.restTemplate = restTemplate;
   }
 
+  @Override
   public void validate(String zipCode) {
-    String url = UriComponentsBuilder.fromHttpUrl(URL_API)
-        .path(zipCode + "/" + "json")
-        .toUriString();
+
+    String url = createUrl(zipCode);
 
     try {
       Map<String, Object> response = restTemplate.getForObject(url, Map.class);
 
       if (response != null && response.containsKey("erro")) {
-        throw new InvalidDataException("Zip code is invalid.");
+        throw new ZipCodeValidationException("Zip code is invalid.");
       }
     }
     catch (HttpClientErrorException e) {
-      throw new ExternalServiceUnavailableException("Error when trying to access external service");
+      throw new ZipCodeValidationException("Error when trying to access external service");
     }
     catch (ResourceAccessException e) {
       throw new ExternalServiceUnavailableException("Unable to reach the zip code validation service.");
     }
   }
 
+  private String createUrl(String zipCode) {
+    String url = UriComponentsBuilder.fromHttpUrl(URL_API)
+        .path(zipCode + "/" + "json")
+        .toUriString();
+    return url;
+  }
 }

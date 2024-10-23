@@ -1,12 +1,12 @@
 package com.example.desafiobackend.services;
 
-import com.example.desafiobackend.entities.address.Address;
 import com.example.desafiobackend.entities.establishment.Establishment;
 import com.example.desafiobackend.repositories.EstablishmentRepository;
 import com.example.desafiobackend.services.exceptions.DatabaseException;
 import com.example.desafiobackend.services.exceptions.InvalidDataException;
 import com.example.desafiobackend.services.exceptions.ResourceNotFoundException;
-import com.example.desafiobackend.services.validationService.interfaces.ValidationFields;
+import com.example.desafiobackend.services.validationService.AddressFieldsValidatorService;
+import com.example.desafiobackend.services.validationService.EstablishmentFieldsValidatorService;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,15 +19,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class EstablishmentService {
 
   private final EstablishmentRepository establishmentRepository;
-  private final ValidationFields<Establishment> establishmentFieldsValidator;
-  private final ValidationFields<Address> addressFieldsValidator;
+  private final EstablishmentFieldsValidatorService establishmentFieldsValidator;
+  private final AddressFieldsValidatorService addressFieldsValidator;
 
 
   @Autowired
   public EstablishmentService(
       EstablishmentRepository establishmentRepository,
-      ValidationFields<Establishment> establishmentFieldsValidator,
-      ValidationFields<Address> addressFieldsValidator
+      EstablishmentFieldsValidatorService establishmentFieldsValidator,
+      AddressFieldsValidatorService addressFieldsValidator
   ) {
     this.establishmentRepository = establishmentRepository;
     this.establishmentFieldsValidator = establishmentFieldsValidator;

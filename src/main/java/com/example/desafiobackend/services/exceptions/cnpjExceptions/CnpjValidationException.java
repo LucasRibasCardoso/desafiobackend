@@ -1,4 +1,4 @@
-package com.example.desafiobackend.services.exceptions;
+package com.example.desafiobackend.services.exceptions.cnpjExceptions;
 
 public class CnpjValidationException extends RuntimeException {
 

@@ -1,7 +1,8 @@
-package com.example.desafiobackend.services.validationService;
+package com.example.desafiobackend.services.validationService.implementations;
 
 import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
-import com.example.desafiobackend.services.exceptions.InvalidDataException;
+import com.example.desafiobackend.services.exceptions.phoneExceptions.PhoneValidationException;
+import com.example.desafiobackend.services.validationService.interfaces.ValidationService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class PhoneValidationApiService {
+public class PhoneValidationApiService implements ValidationService<String> {
 
   @Value("${numverify.api.key}")
   private  String api_key;
@@ -25,6 +26,7 @@ public class PhoneValidationApiService {
     this.restTemplate = restTemplate;
   }
 
+  @Override
   public void validate(String phone) {
     String url = UriComponentsBuilder.fromHttpUrl(API_URL)
         .queryParam("access_key",  api_key)
@@ -36,11 +38,11 @@ public class PhoneValidationApiService {
       Map<String, Object> response = restTemplate.getForObject(url, Map.class);
 
       if (response == null || !(boolean) response.get("valid")) {
-        throw new InvalidDataException("Phone is not valid.");
+        throw new PhoneValidationException("Phone is not valid.");
       }
     }
     catch (HttpClientErrorException e) {
-      throw new ExternalServiceUnavailableException("Error when trying to access external service");
+      throw new PhoneValidationException("Error when trying to access external service");
     }
     catch (ResourceAccessException e) {
       throw new ExternalServiceUnavailableException("Unable to reach the phone validation service.");
