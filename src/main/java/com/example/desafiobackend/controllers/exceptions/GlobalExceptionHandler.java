@@ -1,11 +1,14 @@
 package com.example.desafiobackend.controllers.exceptions;
 
+import com.example.desafiobackend.services.exceptions.QuotaReachedException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjFormatInvalidException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjNotFoundException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjValidationException;
 import com.example.desafiobackend.services.exceptions.DatabaseException;
 import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
 import com.example.desafiobackend.services.exceptions.InvalidDataException;
+import com.example.desafiobackend.services.exceptions.phoneExceptions.PhoneFormatInvalidException;
+import com.example.desafiobackend.services.exceptions.phoneExceptions.PhoneNotFoundException;
 import com.example.desafiobackend.services.exceptions.phoneExceptions.PhoneValidationException;
 import com.example.desafiobackend.services.exceptions.ResourceNotFoundException;
 import com.example.desafiobackend.services.exceptions.TooManyRequestsException;
@@ -51,6 +54,27 @@ public class GlobalExceptionHandler {
     return buildErrorResponse(e, HttpStatus.SERVICE_UNAVAILABLE, "Service unavailable", request);
   }
 
+  @ExceptionHandler(QuotaReachedException.class)
+  public ResponseEntity<StandardError> handleQuotaReachedException(
+      QuotaReachedException e, HttpServletRequest request
+  ) {
+    return buildErrorResponse(e, HttpStatus.UNPROCESSABLE_ENTITY, "Quota reached", request);
+  }
+
+  // API TELEFONE
+  @ExceptionHandler(PhoneNotFoundException.class)
+  public ResponseEntity<StandardError> handlePhoneNotFoundException(
+      PhoneNotFoundException e, HttpServletRequest request
+  ) {
+    return buildErrorResponse(e, HttpStatus.NOT_FOUND, "Phone number validation error", request);
+  }
+
+  @ExceptionHandler(PhoneFormatInvalidException.class)
+  public ResponseEntity<StandardError> handlePhoneFormatInvalidException(
+      PhoneFormatInvalidException e, HttpServletRequest request) {
+    return buildErrorResponse(e, HttpStatus.BAD_REQUEST, "Invalid phone number format", request);
+  }
+  
 
   @ExceptionHandler(PhoneValidationException.class)
   public ResponseEntity<StandardError> handlePhoneValidationException(

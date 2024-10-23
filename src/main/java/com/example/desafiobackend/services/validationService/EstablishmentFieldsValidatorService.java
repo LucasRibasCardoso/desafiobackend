@@ -16,8 +16,8 @@ public class EstablishmentFieldsValidatorService {
 
   @Autowired
   public EstablishmentFieldsValidatorService(
-      @Qualifier("phoneValidationApiService") ValidationService<String> phoneValidator,
-      @Qualifier("cnpjValidationApiService") ValidationService<String> cnpjValidator
+      @Qualifier("phoneValidationAbstractApiService") ValidationService<String> phoneValidator,
+      @Qualifier("cnpjValidationCnpjJaApiService") ValidationService<String> cnpjValidator
   ) {
     this.phoneValidator = phoneValidator;
     this.cnpjValidator = cnpjValidator;

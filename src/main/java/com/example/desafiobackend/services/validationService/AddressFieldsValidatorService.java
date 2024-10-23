@@ -14,7 +14,7 @@ public class AddressFieldsValidatorService {
 
   @Autowired
   public AddressFieldsValidatorService(
-      @Qualifier("zipCodeValidatorApiService") ValidationService<String> zipCodeValidator)
+      @Qualifier("zipCodeValidationViaCepApiService") ValidationService<String> zipCodeValidator)
   {
     this.zipCodeValidator = zipCodeValidator;
   }

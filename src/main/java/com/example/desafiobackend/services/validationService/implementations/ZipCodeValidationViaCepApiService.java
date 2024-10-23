@@ -17,13 +17,13 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class ZipCodeValidatorApiService implements ValidationService <String>{
+public class ZipCodeValidationViaCepApiService implements ValidationService <String>{
 
   private static final String URL_API = "https://viacep.com.br/ws/";
   private final RestTemplate restTemplate;
 
   @Autowired
-  public ZipCodeValidatorApiService(RestTemplate restTemplate) {
+  public ZipCodeValidationViaCepApiService(RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
   }
 

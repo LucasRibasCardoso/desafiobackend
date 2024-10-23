@@ -19,13 +19,13 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class CnpjValidationApiService implements ValidationService<String> {
+public class CnpjValidationCnpjJaApiService implements ValidationService<String> {
 
   private static final String URL_API = "https://open.cnpja.com/office/";
   private final RestTemplate restTemplate;
 
   @Autowired
-  public CnpjValidationApiService(RestTemplate restTemplate) {
+  public CnpjValidationCnpjJaApiService(RestTemplate restTemplate) {
     this.restTemplate = restTemplate;
   }
 
