@@ -1,5 +1,6 @@
 package com.example.desafiobackend.controllers.exceptions;
 
+import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjFormatInvalidException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjNotFoundException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjValidationException;
 import com.example.desafiobackend.services.exceptions.DatabaseException;
@@ -9,6 +10,8 @@ import com.example.desafiobackend.services.exceptions.phoneExceptions.PhoneValid
 import com.example.desafiobackend.services.exceptions.ResourceNotFoundException;
 import com.example.desafiobackend.services.exceptions.TooManyRequestsException;
 import com.example.desafiobackend.services.exceptions.UnauthorizedException;
+import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeFormatInvalidException;
+import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeNotFoundException;
 import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeValidationException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.time.Instant;
@@ -56,6 +59,7 @@ public class GlobalExceptionHandler {
     return buildErrorResponse(e, HttpStatus.BAD_REQUEST, "Phone validation error", request);
   }
 
+  // API CEP ---------------
   @ExceptionHandler(ZipCodeValidationException.class)
   public ResponseEntity<StandardError> handleZipCodeValidationException(
       ZipCodeValidationException e, HttpServletRequest request
@@ -63,12 +67,24 @@ public class GlobalExceptionHandler {
     return buildErrorResponse(e, HttpStatus.BAD_REQUEST, "Zip code validation error", request);
   }
 
-  // API CNPJ
+  @ExceptionHandler(ZipCodeFormatInvalidException.class)
+  public ResponseEntity<StandardError> handleZipCodeFormatInvalidException(
+      ZipCodeFormatInvalidException e, HttpServletRequest request) {
+    return buildErrorResponse(e, HttpStatus.BAD_REQUEST, "Invalid zip code format", request);
+  }
+
+  @ExceptionHandler(ZipCodeNotFoundException.class)
+  public ResponseEntity<StandardError> handleZipCodeNotFoundException(
+      ZipCodeNotFoundException e, HttpServletRequest request
+  ) {
+    return buildErrorResponse(e, HttpStatus.NOT_FOUND, "Zip code validation error", request);
+  }
+  // API CNPJ ---------------
   @ExceptionHandler(CnpjValidationException.class)
   public ResponseEntity<StandardError> handleCnpjValidationException(
       CnpjValidationException e, HttpServletRequest request
   ) {
-    return buildErrorResponse(e, HttpStatus.BAD_REQUEST, "Cnpj validation error", request);
+    return buildErrorResponse(e, HttpStatus.NOT_FOUND, "CNPJ validation error", request);
   }
 
   @ExceptionHandler(CnpjNotFoundException.class)
@@ -87,6 +103,12 @@ public class GlobalExceptionHandler {
   public ResponseEntity<StandardError> handleTooManyRequestsException(
       TooManyRequestsException e, HttpServletRequest request) {
     return buildErrorResponse(e, HttpStatus.TOO_MANY_REQUESTS, "Too many requests", request);
+  }
+
+  @ExceptionHandler(CnpjFormatInvalidException.class)
+  public ResponseEntity<StandardError> handleCnpjFormatInvalidException(
+      CnpjFormatInvalidException e, HttpServletRequest request) {
+    return buildErrorResponse(e, HttpStatus.BAD_REQUEST, "Invalid CNPJ format", request);
   }
 
 

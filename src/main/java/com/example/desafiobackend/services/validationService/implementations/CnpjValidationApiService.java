@@ -1,10 +1,11 @@
 package com.example.desafiobackend.services.validationService.implementations;
 
 
+import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjFormatInvalidException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjNotFoundException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjValidationException;
 import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
-import com.example.desafiobackend.services.exceptions.InvalidDataException;
+
 import com.example.desafiobackend.services.exceptions.TooManyRequestsException;
 import com.example.desafiobackend.services.exceptions.UnauthorizedException;
 import com.example.desafiobackend.services.validationService.interfaces.ValidationService;
@@ -32,7 +33,6 @@ public class CnpjValidationApiService implements ValidationService<String> {
   @Override
   public void validate (String cnpj) {
     validateFormatCnpj(cnpj);
-
     String url = createUrl(cnpj);
 
     try {
@@ -42,7 +42,7 @@ public class CnpjValidationApiService implements ValidationService<String> {
       handleHttpClientErrorException(e);
     }
     catch (ResourceAccessException e) {
-      throw new ExternalServiceUnavailableException("Unable to reach the CNPJ validation service.");
+      throw new ExternalServiceUnavailableException("Unable to access the cnpj validation service.");
     }
   }
 
@@ -55,7 +55,7 @@ public class CnpjValidationApiService implements ValidationService<String> {
 
   private void validateFormatCnpj(String cnpj) {
     if (!cnpj.matches("\\d{14}")){
-      throw new InvalidDataException("CNPJ invalid");
+      throw new CnpjFormatInvalidException("The CNPJ format is not valid.");
     }
   }
 
@@ -64,16 +64,14 @@ public class CnpjValidationApiService implements ValidationService<String> {
 
     switch ((HttpStatus) statusCode) {
       case BAD_REQUEST:
-        throw new CnpjNotFoundException("The CNPJ format is not valid.");
-      case UNAUTHORIZED:
-        throw new UnauthorizedException("Unauthorized request. Check your API key.");
+        throw new CnpjNotFoundException("The cnpj format is not valid.");
       case NOT_FOUND:
-        throw new CnpjNotFoundException("CNPJ not found at the revenue service.");
+        throw new CnpjNotFoundException("Cnpj not found at the revenue service.");
       case TOO_MANY_REQUESTS:
         throw new TooManyRequestsException("Too many requests. Limit exceeded.");
       default:
         throw new CnpjValidationException(
-            "An error occurred while trying to validate the CNPJ. Please try again later.");
+            "Unexpected error when trying to validate cnpj. Please try again later.");
     }
   }
 }
