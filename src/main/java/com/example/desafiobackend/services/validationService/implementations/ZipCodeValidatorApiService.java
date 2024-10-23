@@ -5,9 +5,8 @@ import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeF
 import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeNotFoundException;
 import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeValidationException;
 import com.example.desafiobackend.services.validationService.interfaces.ValidationService;
+import com.example.desafiobackend.utills.validators.ZipCodeValidator;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -30,10 +29,9 @@ public class ZipCodeValidatorApiService implements ValidationService <String>{
 
   @Override
   public void validate(String zipCode) {
-    validateFormatZipCode(zipCode);
+    ZipCodeValidator.validateFormat(zipCode);
+    zipCode = ZipCodeValidator.cleanZipCode(zipCode); // retorna o CEP sem hífen
 
-    zipCode = clearZipCode(zipCode);
-    System.out.println(zipCode);
     String url = createUrl(zipCode);
 
     try {
@@ -48,26 +46,11 @@ public class ZipCodeValidatorApiService implements ValidationService <String>{
     }
   }
 
-
   private String createUrl(String zipCode) {
     String url = UriComponentsBuilder.fromHttpUrl(URL_API)
         .path(zipCode + "/" + "json")
         .toUriString();
     return url;
-  }
-
-  private String clearZipCode(String zipCode) {
-    return zipCode.replace("-", "");
-  }
-
-  private void validateFormatZipCode(String zipCode) {
-    Pattern pattern = Pattern.compile("^\\d{2}\\d{3}[-]?\\d{3}$");
-    Matcher matcher = pattern.matcher(zipCode);
-
-    if (!matcher.matches()) {
-      System.out.println("error zup code ----------------");
-      throw new ZipCodeFormatInvalidException("Zip code is invalid.");
-    }
   }
 
   private void validateResponseZipCode(Map<String, Object> response){

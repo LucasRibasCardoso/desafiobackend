@@ -43,7 +43,7 @@ public class TestConfig implements CommandLineRunner {
     Establishment establishment01 = new Establishment(
         "Estacionamento Cardoso",
         "64.931.984/0001-07",
-        "47 992034358",
+        "47992034358",
         15,
         20,
         address02

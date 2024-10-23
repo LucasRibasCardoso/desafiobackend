@@ -1,14 +1,13 @@
 package com.example.desafiobackend.services.validationService.implementations;
 
 
-import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjFormatInvalidException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjNotFoundException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjValidationException;
 import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
 
 import com.example.desafiobackend.services.exceptions.TooManyRequestsException;
-import com.example.desafiobackend.services.exceptions.UnauthorizedException;
 import com.example.desafiobackend.services.validationService.interfaces.ValidationService;
+import com.example.desafiobackend.utills.validators.CnpjValidator;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,7 +31,10 @@ public class CnpjValidationApiService implements ValidationService<String> {
 
   @Override
   public void validate (String cnpj) {
-    validateFormatCnpj(cnpj);
+
+    CnpjValidator.validateFormat(cnpj);
+    cnpj = CnpjValidator.cleanCnpj(cnpj);
+
     String url = createUrl(cnpj);
 
     try {
@@ -51,12 +53,6 @@ public class CnpjValidationApiService implements ValidationService<String> {
         .path(cnpj)
         .toUriString();
     return url;
-  }
-
-  private void validateFormatCnpj(String cnpj) {
-    if (!cnpj.matches("\\d{14}")){
-      throw new CnpjFormatInvalidException("The CNPJ format is not valid.");
-    }
   }
 
   private void handleHttpClientErrorException(HttpClientErrorException e) {

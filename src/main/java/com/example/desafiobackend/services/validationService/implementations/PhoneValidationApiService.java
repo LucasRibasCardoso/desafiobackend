@@ -35,9 +35,9 @@ public class PhoneValidationApiService implements ValidationService<String> {
         .toUriString();
 
     try {
-      Map<String, Object> response = restTemplate.getForObject(url, Map.class);
+      Map response = restTemplate.getForObject(url, Map.class);
 
-      if (response == null || !(boolean) response.get("valid")) {
+      if (response == null || !Boolean.TRUE.equals(response.get("valid"))) {
         throw new PhoneValidationException("Phone is not valid.");
       }
     }
