@@ -10,6 +10,8 @@ import com.example.desafiobackend.services.validationService.EstablishmentFields
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -45,7 +47,7 @@ public class EstablishmentService {
   }
 
   @Transactional
-  public void insertEstablishment(Establishment establishment) {
+  public Establishment insertEstablishment(Establishment establishment) {
     if (establishment == null) {
       throw new InvalidDataException("Establishment cannot be null");
     }
@@ -58,6 +60,24 @@ public class EstablishmentService {
     }
     catch (OptimisticLockingFailureException e) {
       throw new DatabaseException("Unable to save this establishment.");
+    }
+    return establishment;
+  }
+
+  @Transactional
+  public void deleteEstablishmentById(Long id) {
+    if (!establishmentRepository.existsById(id)) {
+      throw new ResourceNotFoundException(id);
+    }
+
+    try {
+      establishmentRepository.deleteById(id);
+    }
+    catch (EmptyResultDataAccessException e) {
+      throw new ResourceNotFoundException(id);
+    }
+    catch (DataIntegrityViolationException e) {
+      throw new DatabaseException("Unable to delete this establishment.");
     }
   }
 }

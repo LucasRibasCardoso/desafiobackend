@@ -5,6 +5,7 @@ import com.example.desafiobackend.services.EstablishmentService;
 import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,16 +36,21 @@ public class EstablishmentController {
   }
 
   @PostMapping()
-  public ResponseEntity<Void> createEstablishment(@RequestBody Establishment establishment) {
-    establishmentService.insertEstablishment(establishment);
+  public ResponseEntity<Establishment> createEstablishment(@RequestBody Establishment establishment) {
+    establishment = establishmentService.insertEstablishment(establishment);
 
-    URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+    URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
         .path("/{id}")
         .buildAndExpand(establishment.getId())
         .toUri();
 
-    return ResponseEntity.created(location).build();
+    return ResponseEntity.created(uri).body(establishment);
   }
 
+  @DeleteMapping(value = "/{id}")
+  public ResponseEntity<Void> deleteEstablishment(@PathVariable Long id) {
+    establishmentService.deleteEstablishmentById(id);
+    return ResponseEntity.ok().build();
+  }
 
 }
