@@ -31,6 +31,5 @@ public class AddressFieldsValidatorService {
     RequiredFieldsValidator.validate(address.getNeighborhood(), "Neighborhood");
     RequiredFieldsValidator.validate(address.getCity(), "City");
     RequiredFieldsValidator.validate(address.getState(), "State");
-    RequiredFieldsValidator.validate(address.getCountry(), "Country");
   }
 }

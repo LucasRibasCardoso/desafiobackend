@@ -1,18 +1,18 @@
 package com.example.desafiobackend.controllers.exceptions;
 
-import com.example.desafiobackend.services.exceptions.QuotaReachedException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.QuotaReachedException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjFormatInvalidException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjNotFoundException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjValidationException;
-import com.example.desafiobackend.services.exceptions.DatabaseException;
-import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
-import com.example.desafiobackend.services.exceptions.InvalidDataException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.DatabaseException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.ExternalServiceUnavailableException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.InvalidDataException;
 import com.example.desafiobackend.services.exceptions.phoneExceptions.PhoneFormatInvalidException;
 import com.example.desafiobackend.services.exceptions.phoneExceptions.PhoneNotFoundException;
 import com.example.desafiobackend.services.exceptions.phoneExceptions.PhoneValidationException;
-import com.example.desafiobackend.services.exceptions.ResourceNotFoundException;
-import com.example.desafiobackend.services.exceptions.TooManyRequestsException;
-import com.example.desafiobackend.services.exceptions.UnauthorizedException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.ResourceNotFoundException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.TooManyRequestsException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.UnauthorizedException;
 import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeFormatInvalidException;
 import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeNotFoundException;
 import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeValidationException;
@@ -74,7 +74,7 @@ public class GlobalExceptionHandler {
       PhoneFormatInvalidException e, HttpServletRequest request) {
     return buildErrorResponse(e, HttpStatus.BAD_REQUEST, "Invalid phone number format", request);
   }
-  
+
 
   @ExceptionHandler(PhoneValidationException.class)
   public ResponseEntity<StandardError> handlePhoneValidationException(
@@ -103,7 +103,7 @@ public class GlobalExceptionHandler {
   ) {
     return buildErrorResponse(e, HttpStatus.NOT_FOUND, "Zip code validation error", request);
   }
-  // API CNPJ ---------------
+  // API CNPJ -----------------------------------------------------------------------------------
   @ExceptionHandler(CnpjValidationException.class)
   public ResponseEntity<StandardError> handleCnpjValidationException(
       CnpjValidationException e, HttpServletRequest request

@@ -37,7 +37,6 @@ public class Address implements Serializable {
   private String neighborhood;
   private String city;
   private String state;
-  private String country;
 
 
   @JsonIgnore
@@ -50,8 +49,7 @@ public class Address implements Serializable {
       String zipCode,
       String neighborhood,
       String state,
-      String city,
-      String country
+      String city
   ) {
     this.homeNumber = homeNumber;
     this.street = street;
@@ -59,6 +57,5 @@ public class Address implements Serializable {
     this.neighborhood = neighborhood;
     this.state = state;
     this.city = city;
-    this.country = country;
   }
 }

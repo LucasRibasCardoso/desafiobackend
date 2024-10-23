@@ -1,6 +1,6 @@
 package com.example.desafiobackend.services.validationService.implementations;
 
-import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.ExternalServiceUnavailableException;
 import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeFormatInvalidException;
 import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeNotFoundException;
 import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeValidationException;

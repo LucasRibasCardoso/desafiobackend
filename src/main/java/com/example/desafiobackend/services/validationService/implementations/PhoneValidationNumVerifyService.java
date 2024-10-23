@@ -1,6 +1,6 @@
 package com.example.desafiobackend.services.validationService.implementations;
 
-import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.ExternalServiceUnavailableException;
 import com.example.desafiobackend.services.exceptions.phoneExceptions.PhoneValidationException;
 import com.example.desafiobackend.services.validationService.interfaces.ValidationService;
 import com.example.desafiobackend.utills.validators.PhoneValidator;

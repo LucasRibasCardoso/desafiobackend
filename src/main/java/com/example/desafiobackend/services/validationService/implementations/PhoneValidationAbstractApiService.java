@@ -1,11 +1,9 @@
 package com.example.desafiobackend.services.validationService.implementations;
 
-import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
-import com.example.desafiobackend.services.exceptions.QuotaReachedException;
-import com.example.desafiobackend.services.exceptions.TooManyRequestsException;
-import com.example.desafiobackend.services.exceptions.UnauthorizedException;
-import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjNotFoundException;
-import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjValidationException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.ExternalServiceUnavailableException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.QuotaReachedException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.TooManyRequestsException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.UnauthorizedException;
 import com.example.desafiobackend.services.exceptions.phoneExceptions.PhoneNotFoundException;
 import com.example.desafiobackend.services.exceptions.phoneExceptions.PhoneValidationException;
 import com.example.desafiobackend.services.validationService.interfaces.ValidationService;

@@ -2,9 +2,9 @@ package com.example.desafiobackend.services;
 
 import com.example.desafiobackend.entities.establishment.Establishment;
 import com.example.desafiobackend.repositories.EstablishmentRepository;
-import com.example.desafiobackend.services.exceptions.DatabaseException;
-import com.example.desafiobackend.services.exceptions.InvalidDataException;
-import com.example.desafiobackend.services.exceptions.ResourceNotFoundException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.DatabaseException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.InvalidDataException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.ResourceNotFoundException;
 import com.example.desafiobackend.services.validationService.AddressFieldsValidatorService;
 import com.example.desafiobackend.services.validationService.EstablishmentFieldsValidatorService;
 import java.util.List;

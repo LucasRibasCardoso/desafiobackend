@@ -1,7 +1,7 @@
 package com.example.desafiobackend.services.validationService;
 
 import com.example.desafiobackend.entities.establishment.Establishment;
-import com.example.desafiobackend.services.exceptions.InvalidDataException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.InvalidDataException;
 import com.example.desafiobackend.services.validationService.interfaces.ValidationService;
 import com.example.desafiobackend.utills.validators.RequiredFieldsValidator;
 import org.springframework.beans.factory.annotation.Autowired;

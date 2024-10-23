@@ -1,4 +1,4 @@
-package com.example.desafiobackend.services.exceptions;
+package com.example.desafiobackend.services.exceptions.globalsExceptions;
 
 import java.io.Serial;
 

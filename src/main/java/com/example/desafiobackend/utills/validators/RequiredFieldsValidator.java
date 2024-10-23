@@ -1,6 +1,6 @@
 package com.example.desafiobackend.utills.validators;
 
-import com.example.desafiobackend.services.exceptions.InvalidDataException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.InvalidDataException;
 
 public class RequiredFieldsValidator {
 

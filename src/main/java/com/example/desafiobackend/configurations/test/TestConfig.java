@@ -25,8 +25,7 @@ public class TestConfig implements CommandLineRunner {
         "69317-107",
         "Santa Luzia",
         "Boa Vista",
-        "Roraima",
-        "Brasil"
+        "Roraima"
     );
 
     Address address02 = new Address(
@@ -35,8 +34,7 @@ public class TestConfig implements CommandLineRunner {
         "22010-001",
         "Rio de Janeiro",
         "RJ",
-        "Rio de Janeiro",
-        "Brasil"
+        "Rio de Janeiro"
     );
 
 

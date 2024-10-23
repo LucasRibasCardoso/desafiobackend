@@ -6,6 +6,7 @@ import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,7 +35,7 @@ public class EstablishmentController {
   }
 
   @PostMapping()
-  public ResponseEntity<Establishment> createEstablishment(@RequestBody Establishment establishment) {
+  public ResponseEntity<Void> createEstablishment(@RequestBody Establishment establishment) {
     establishmentService.insertEstablishment(establishment);
 
     URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -42,7 +43,8 @@ public class EstablishmentController {
         .buildAndExpand(establishment.getId())
         .toUri();
 
-    return ResponseEntity.created(location)
-        .body(establishment);
+    return ResponseEntity.created(location).build();
   }
+
+
 }

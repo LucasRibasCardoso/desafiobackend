@@ -1,4 +1,4 @@
-package com.example.desafiobackend.services.exceptions;
+package com.example.desafiobackend.services.exceptions.globalsExceptions;
 
 public class TooManyRequestsException extends RuntimeException {
 

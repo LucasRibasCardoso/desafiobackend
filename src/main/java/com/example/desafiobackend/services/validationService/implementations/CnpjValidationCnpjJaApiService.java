@@ -3,9 +3,9 @@ package com.example.desafiobackend.services.validationService.implementations;
 
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjNotFoundException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjValidationException;
-import com.example.desafiobackend.services.exceptions.ExternalServiceUnavailableException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.ExternalServiceUnavailableException;
 
-import com.example.desafiobackend.services.exceptions.TooManyRequestsException;
+import com.example.desafiobackend.services.exceptions.globalsExceptions.TooManyRequestsException;
 import com.example.desafiobackend.services.validationService.interfaces.ValidationService;
 import com.example.desafiobackend.utills.validators.CnpjValidator;
 import java.util.Map;
