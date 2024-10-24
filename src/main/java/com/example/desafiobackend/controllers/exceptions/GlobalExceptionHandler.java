@@ -1,5 +1,6 @@
 package com.example.desafiobackend.controllers.exceptions;
 
+import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjAlreadyExist;
 import com.example.desafiobackend.services.exceptions.globalsExceptions.QuotaReachedException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjFormatInvalidException;
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjNotFoundException;
@@ -135,6 +136,11 @@ public class GlobalExceptionHandler {
     return buildErrorResponse(e, HttpStatus.BAD_REQUEST, "Invalid CNPJ format", request);
   }
 
+  @ExceptionHandler(CnpjAlreadyExist.class)
+  public ResponseEntity<StandardError> handleCnpjAlreadyExistException(
+      CnpjAlreadyExist e, HttpServletRequest request) {
+    return buildErrorResponse(e, HttpStatus.CONFLICT, "CNPJ already exist", request);
+  }
 
   // Metodo auxiliar para criar uma resposta padronizada de erro
   private ResponseEntity<StandardError> buildErrorResponse(

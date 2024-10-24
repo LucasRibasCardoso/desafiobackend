@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class EstablishmentFieldsValidatorService {
 
-  private final ValidationService<String>  phoneValidator;
+  private final ValidationService<String> phoneValidator;
   private final ValidationService<String> cnpjValidator;
 
   @Autowired

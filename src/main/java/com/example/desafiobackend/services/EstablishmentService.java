@@ -2,6 +2,7 @@ package com.example.desafiobackend.services;
 
 import com.example.desafiobackend.entities.establishment.Establishment;
 import com.example.desafiobackend.repositories.EstablishmentRepository;
+import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjAlreadyExist;
 import com.example.desafiobackend.services.exceptions.globalsExceptions.DatabaseException;
 import com.example.desafiobackend.services.exceptions.globalsExceptions.InvalidDataException;
 import com.example.desafiobackend.services.exceptions.globalsExceptions.ResourceNotFoundException;
@@ -63,16 +64,20 @@ public class EstablishmentService {
       throw new InvalidDataException("Establishment cannot be null");
     }
 
+    if (establishmentRepository.findByCnpj(establishment.getCnpj()).isPresent()) {
+      throw new CnpjAlreadyExist("This CNPJ already is register.");
+    }
+
     establishmentFieldsValidator.validateFields(establishment);
     addressFieldsValidator.validateFields(establishment.getAddress());
 
     try {
       establishmentRepository.save(establishment);
+      return establishment;
     }
     catch (OptimisticLockingFailureException e) {
       throw new DatabaseException("Unable to save this establishment.");
     }
-    return establishment;
   }
 
   @Transactional
