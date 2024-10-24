@@ -20,8 +20,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @RequestMapping(value = "/establishments")
 public class EstablishmentController {
 
+  private final EstablishmentService establishmentService;
+
   @Autowired
-  private EstablishmentService establishmentService;
+  public EstablishmentController(EstablishmentService establishmentService) {
+    this.establishmentService = establishmentService;
+  }
 
   @GetMapping
   public ResponseEntity<List<Establishment>> findAllEstablishments() {

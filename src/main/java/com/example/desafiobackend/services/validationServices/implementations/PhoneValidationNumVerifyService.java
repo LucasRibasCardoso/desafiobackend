@@ -29,22 +29,16 @@ public class PhoneValidationNumVerifyService implements ValidationService<String
 
   @Override
   public void validate(String phone) {
-
     PhoneValidator.validateFormat(phone);
-    phone = PhoneValidator.cleanPhone(phone);
 
-    String url = UriComponentsBuilder.fromHttpUrl(API_URL)
-        .queryParam("access_key",  api_key)
-        .queryParam("number", phone)
-        .queryParam("country_code", "BR")
-        .toUriString();
+    // remove caracteres não numéricos
+    String cleanPhone = PhoneValidator.cleanPhone(phone);
+
+    String url = createUrl(cleanPhone);
 
     try {
       Map response = restTemplate.getForObject(url, Map.class);
-
-      if (response == null || !Boolean.TRUE.equals(response.get("valid"))) {
-        throw new PhoneValidationException("Phone is not valid.");
-      }
+      validateResponsePhone(response);
     }
     catch (HttpClientErrorException e) {
       throw new PhoneValidationException("Error when trying to access external service");
@@ -53,5 +47,20 @@ public class PhoneValidationNumVerifyService implements ValidationService<String
       throw new ExternalServiceUnavailableException("Unable to reach the phone validation service.");
     }
 
+  }
+
+  public String createUrl(String cleanPhone) {
+    String url = UriComponentsBuilder.fromHttpUrl(API_URL)
+        .queryParam("access_key",  api_key)
+        .queryParam("number", cleanPhone)
+        .queryParam("country_code", "BR")
+        .toUriString();
+    return url;
+  }
+
+  private void validateResponsePhone(Map response) {
+    if (response == null || !Boolean.TRUE.equals(response.get("valid"))) {
+      throw new PhoneValidationException("Phone is not valid.");
+    }
   }
 }

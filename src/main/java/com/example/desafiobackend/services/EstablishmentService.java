@@ -48,7 +48,7 @@ public class EstablishmentService {
   }
 
   public Establishment findEstablishmentByCnpj(String cnpj) {
-    // Limpa o CNPJ (remove pontos, barras e hifens)
+    // remove pontos, barras e hifens
     String cleanCnpj = CnpjValidator.cleanCnpj(cnpj);
 
     CnpjValidator.validate(cleanCnpj);

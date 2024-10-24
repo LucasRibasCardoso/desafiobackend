@@ -26,6 +26,7 @@ public class CnpjValidator {
     return cnpj.replaceAll("[^\\d]", "");
   }
 
+  // aplica mascara XX.XXX.XXX/XXXX-XX no CNPJ
   public static String applyMask(String cnpj) {
     String cleanedCnpj = cleanCnpj(cnpj);
 

@@ -62,13 +62,17 @@ public class CnpjValidationCnpjJaApiService implements ValidationService<String>
     switch ((HttpStatus) statusCode) {
       case BAD_REQUEST:
         throw new CnpjNotFoundException("The cnpj format is not valid.");
+
       case NOT_FOUND:
         throw new CnpjNotFoundException("Cnpj not found at the revenue service.");
+
       case TOO_MANY_REQUESTS:
         throw new TooManyRequestsException("Too many requests. Limit exceeded.");
+
       default:
         throw new CnpjValidationException(
-            "Unexpected error when trying to validate cnpj. Please try again later.");
+            "Unexpected error when trying to validate cnpj. Please try again later."
+        );
     }
   }
 }

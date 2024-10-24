@@ -30,9 +30,11 @@ public class ZipCodeValidationViaCepApiService implements ValidationService <Str
   @Override
   public void validate(String zipCode) {
     ZipCodeValidator.validateFormat(zipCode);
-    zipCode = ZipCodeValidator.cleanZipCode(zipCode); // retorna o CEP sem hífen
 
-    String url = createUrl(zipCode);
+    // remove o hífen
+    String cleanZipCode = ZipCodeValidator.cleanZipCode(zipCode);
+
+    String url = createUrl(cleanZipCode);
 
     try {
       Map<String, Object> response = restTemplate.getForObject(url, Map.class);
@@ -67,6 +69,7 @@ public class ZipCodeValidationViaCepApiService implements ValidationService <Str
     switch ((HttpStatus) statusCode) {
       case BAD_REQUEST:
         throw new ZipCodeFormatInvalidException("Zip code is invalid.");
+
       default:
         throw new ZipCodeValidationException(
             "Unexpected error when trying to validate zip code. Please try again later.");

@@ -1,21 +1,21 @@
 package com.example.desafiobackend.utills.validators;
 
 import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeFormatInvalidException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class ZipCodeValidator {
 
   // valida cep no formato XXXXX-XXX
-  private static final String REGEX_CEP = "^\\d{5}-\\d{3}$";
+  private static final String REGEX_ZIP_CODE = "^\\d{5}-\\d{3}$";
 
   public static void validateFormat (String zipCode) {
-    Pattern pattern = Pattern.compile(REGEX_CEP);
-    Matcher matcher = pattern.matcher(zipCode);
 
-    if (!matcher.matches()) {
+    if (!isValidZipCode(zipCode)) {
       throw new ZipCodeFormatInvalidException("Invalid zip code format.");
     }
+  }
+
+  private static boolean isValidZipCode (String zipCode) {
+    return zipCode.matches(REGEX_ZIP_CODE);
   }
 
   public static String cleanZipCode (String zipCode) {

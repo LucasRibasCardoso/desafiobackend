@@ -35,13 +35,14 @@ public class PhoneValidationAbstractApiService implements ValidationService<Stri
 
   @Override
   public void validate(String phone) {
-
     PhoneValidator.validateFormat(phone);
-    phone = PhoneValidator.cleanPhone(phone);
+
+    // remove caracteres não numéricos
+    String cleanPhone = PhoneValidator.cleanPhone(phone);
 
     String url = UriComponentsBuilder.fromHttpUrl(API_URL)
         .queryParam("api_key",  api_key)
-        .queryParam("phone", phone)
+        .queryParam("phone", cleanPhone)
         .queryParam("country", "BR")
         .toUriString();
 
@@ -66,15 +67,20 @@ public class PhoneValidationAbstractApiService implements ValidationService<Stri
     switch ((HttpStatus) statusCode) {
       case BAD_REQUEST:
         throw new PhoneNotFoundException("Phone not found.");
+
       case UNAUTHORIZED:
         throw new UnauthorizedException("The request was unacceptable. Verify your api key.");
+
       case UNPROCESSABLE_ENTITY:
         throw new QuotaReachedException("Quota reached. Insufficient API credits.");
+
       case TOO_MANY_REQUESTS:
         throw new TooManyRequestsException("Too many requests. Limit exceeded.");
+
       default:
         throw new PhoneValidationException(
-            "Unexpected error when trying to validate phone. Please try again later.");
+            "Unexpected error when trying to validate phone. Please try again later."
+        );
     }
   }
 }
