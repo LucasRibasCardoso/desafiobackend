@@ -1,4 +1,4 @@
-package com.example.desafiobackend.controllers.exceptions;
+package com.example.desafiobackend.controllers.exceptions.handlers;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.io.Serial;

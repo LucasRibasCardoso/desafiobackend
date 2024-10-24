@@ -61,7 +61,7 @@ public class EstablishmentService {
   @Transactional
   public Establishment insertEstablishment(Establishment establishment) {
     if (establishment == null) {
-      throw new InvalidDataException("Establishment cannot be null");
+      throw new InvalidDataException("Establishment cannot be null.");
     }
 
     if (establishmentRepository.findByCnpj(establishment.getCnpj()).isPresent()) {
