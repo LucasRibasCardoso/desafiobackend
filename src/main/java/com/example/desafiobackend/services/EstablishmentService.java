@@ -9,6 +9,10 @@ import com.example.desafiobackend.services.exceptions.globalsExceptions.Resource
 import com.example.desafiobackend.services.validationServices.AddressFieldsValidatorService;
 import com.example.desafiobackend.services.validationServices.EstablishmentFieldsValidatorService;
 import com.example.desafiobackend.utills.validators.CnpjValidator;
+import com.example.desafiobackend.utills.validators.EstablishmentNameValidator;
+import com.example.desafiobackend.utills.validators.GlobalsValidators;
+import com.example.desafiobackend.utills.validators.RequiredFieldsValidator;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,6 +60,20 @@ public class EstablishmentService {
 
     Optional<Establishment> establishment = establishmentRepository.findByCnpj(cnpjWithMask);
     return establishment.orElseThrow(() -> new ResourceNotFoundException());
+  }
+
+  public List<Establishment> findEstablishmentsByName(String name) {
+    EstablishmentNameValidator.validateName(name);
+
+    String sanitizedName = GlobalsValidators.sanitizedInput(name);
+    EstablishmentNameValidator.validateNameLength(sanitizedName);
+
+    List<Establishment> establishments = establishmentRepository.findByNameContainingIgnoreCase(sanitizedName);
+
+    if (establishments.isEmpty()) {
+      throw new ResourceNotFoundException("No establishments found with name: " + sanitizedName);
+    }
+    return establishments;
   }
 
   @Transactional

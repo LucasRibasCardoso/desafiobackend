@@ -11,5 +11,5 @@ public interface EstablishmentRepository extends JpaRepository<Establishment, Lo
 
   Optional<Establishment> findByCnpj(String cnpj);
 
-  List<Establishment> findByName(String name);
+  List<Establishment> findByNameContainingIgnoreCase(String name);
 }

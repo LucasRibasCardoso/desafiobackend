@@ -37,6 +37,15 @@ public class TestConfig implements CommandLineRunner {
         "Rio de Janeiro"
     );
 
+    Address address03 = new Address(
+        4567,
+        "Avenida das Américas",
+        "22010-001",
+        "Rio de Janeiro",
+        "RJ",
+        "Rio de Janeiro"
+    );
+
 
     Establishment establishment01 = new Establishment(
         "Estacionamento Cardoso",
@@ -54,10 +63,21 @@ public class TestConfig implements CommandLineRunner {
         95,
         address01
     );
+
+    Establishment establishment03 = new Establishment(
+        "Eletrica Cardoso",
+        "36.436.218/0001-10",
+        "3653-1231",
+        50,
+        95,
+        address01
+    );
+
     establishment01.setAddress(address01);
     establishment02.setAddress(address02);
+    establishment03.setAddress(address03);
 
-    establishmentRepository.saveAll(Arrays.asList(establishment01, establishment02));
+    establishmentRepository.saveAll(Arrays.asList(establishment01, establishment02, establishment03));
 
   }
 }
