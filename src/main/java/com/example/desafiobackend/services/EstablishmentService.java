@@ -5,8 +5,9 @@ import com.example.desafiobackend.repositories.EstablishmentRepository;
 import com.example.desafiobackend.services.exceptions.globalsExceptions.DatabaseException;
 import com.example.desafiobackend.services.exceptions.globalsExceptions.InvalidDataException;
 import com.example.desafiobackend.services.exceptions.globalsExceptions.ResourceNotFoundException;
-import com.example.desafiobackend.services.validationService.AddressFieldsValidatorService;
-import com.example.desafiobackend.services.validationService.EstablishmentFieldsValidatorService;
+import com.example.desafiobackend.services.validationServices.AddressFieldsValidatorService;
+import com.example.desafiobackend.services.validationServices.EstablishmentFieldsValidatorService;
+import com.example.desafiobackend.utills.validators.CnpjValidator;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ public class EstablishmentService {
   private final EstablishmentRepository establishmentRepository;
   private final EstablishmentFieldsValidatorService establishmentFieldsValidator;
   private final AddressFieldsValidatorService addressFieldsValidator;
-
 
   @Autowired
   public EstablishmentService(
@@ -44,6 +44,17 @@ public class EstablishmentService {
   public Establishment findEstablishmentById(Long id) {
     Optional<Establishment> establishment = establishmentRepository.findById(id);
     return establishment.orElseThrow(() -> new ResourceNotFoundException(id));
+  }
+
+  public Establishment findEstablishmentByCnpj(String cnpj) {
+    // Limpa o CNPJ (remove pontos, barras e hifens)
+    String cleanCnpj = CnpjValidator.cleanCnpj(cnpj);
+
+    CnpjValidator.validate(cleanCnpj);
+    String cnpjWithMask = CnpjValidator.applyMask(cleanCnpj);
+
+    Optional<Establishment> establishment = establishmentRepository.findByCnpj(cnpjWithMask);
+    return establishment.orElseThrow(() -> new ResourceNotFoundException());
   }
 
   @Transactional

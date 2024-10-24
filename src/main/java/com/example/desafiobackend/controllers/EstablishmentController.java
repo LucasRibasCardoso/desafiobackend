@@ -35,6 +35,12 @@ public class EstablishmentController {
     return ResponseEntity.ok(establishment);
   }
 
+  @GetMapping(value = "/cnpj/{cnpj}")
+  public ResponseEntity<Establishment> findEstablishmentByCnpj(@PathVariable String cnpj) {
+    Establishment establishment = establishmentService.findEstablishmentByCnpj(cnpj);
+    return ResponseEntity.ok(establishment);
+  }
+
   @PostMapping()
   public ResponseEntity<Establishment> createEstablishment(@RequestBody Establishment establishment) {
     establishment = establishmentService.insertEstablishment(establishment);

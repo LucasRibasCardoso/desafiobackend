@@ -1,10 +1,10 @@
-package com.example.desafiobackend.services.validationService.implementations;
+package com.example.desafiobackend.services.validationServices.implementations;
 
 import com.example.desafiobackend.services.exceptions.globalsExceptions.ExternalServiceUnavailableException;
 import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeFormatInvalidException;
 import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeNotFoundException;
 import com.example.desafiobackend.services.exceptions.zipCodeExceptions.ZipCodeValidationException;
-import com.example.desafiobackend.services.validationService.interfaces.ValidationService;
+import com.example.desafiobackend.services.validationServices.interfaces.ValidationService;
 import com.example.desafiobackend.utills.validators.ZipCodeValidator;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;

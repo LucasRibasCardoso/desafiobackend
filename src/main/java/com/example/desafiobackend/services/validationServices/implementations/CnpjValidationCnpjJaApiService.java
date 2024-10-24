@@ -1,4 +1,4 @@
-package com.example.desafiobackend.services.validationService.implementations;
+package com.example.desafiobackend.services.validationServices.implementations;
 
 
 import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjNotFoundException;
@@ -6,7 +6,7 @@ import com.example.desafiobackend.services.exceptions.cnpjExceptions.CnpjValidat
 import com.example.desafiobackend.services.exceptions.globalsExceptions.ExternalServiceUnavailableException;
 
 import com.example.desafiobackend.services.exceptions.globalsExceptions.TooManyRequestsException;
-import com.example.desafiobackend.services.validationService.interfaces.ValidationService;
+import com.example.desafiobackend.services.validationServices.interfaces.ValidationService;
 import com.example.desafiobackend.utills.validators.CnpjValidator;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +31,12 @@ public class CnpjValidationCnpjJaApiService implements ValidationService<String>
 
   @Override
   public void validate (String cnpj) {
+    CnpjValidator.validate(cnpj);
 
-    CnpjValidator.validateFormat(cnpj);
-    cnpj = CnpjValidator.cleanCnpj(cnpj);
+    // Limpa o cnpj (remover pontos, barras e hifens)
+    String cleanCnpj = CnpjValidator.cleanCnpj(cnpj);
 
-    String url = createUrl(cnpj);
+    String url = createUrl(cleanCnpj);
 
     try {
       Map<String, Object> response = restTemplate.getForObject(url, Map.class);

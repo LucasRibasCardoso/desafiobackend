@@ -1,8 +1,8 @@
-package com.example.desafiobackend.services.validationService.implementations;
+package com.example.desafiobackend.services.validationServices.implementations;
 
 import com.example.desafiobackend.services.exceptions.globalsExceptions.ExternalServiceUnavailableException;
 import com.example.desafiobackend.services.exceptions.phoneExceptions.PhoneValidationException;
-import com.example.desafiobackend.services.validationService.interfaces.ValidationService;
+import com.example.desafiobackend.services.validationServices.interfaces.ValidationService;
 import com.example.desafiobackend.utills.validators.PhoneValidator;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
